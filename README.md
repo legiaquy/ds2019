@@ -11,6 +11,16 @@ USTH ICT 2019 Distributed Systems
 Group Info
 =======================
 
-* Name 1 (ID1)
-* Name 2 (ID2)
+GROUP 6:
+* Nguyen Dinh Mau (BI7-106)
+* Le Gia Anh Quy (BI7-133)
+* Vu Hoang Minh (BI7-112)
+* Tran Thi Thuy Kieu (BI7-088)
+* Ha Minh Huong (BI7-079)
+
+Group Topic
+=======================
+
+Topic 5: Hybrid centralized and peer-to-peer chat system
+
 
