@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
     memset(&ad, 0, sizeof(ad));
     ad.sin_family = AF_INET;
     ad.sin_addr = *(struct in_addr *)hep->h_addr_list[0];
-    ad.sin_port = htons(12345);
+    ad.sin_port = htons(2509);
 
     // connect to server
     connect(serv, (struct sockaddr *)&ad, ad_length);
