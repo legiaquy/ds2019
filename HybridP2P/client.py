@@ -53,7 +53,7 @@ def clisten(user_input):
                     for c in inputs:
                         if c is not sys.stdin and c is not host_peer:
                             try:         
-                                c.sendall(b"<"+str.encode(my_name)+b" - HOST" + b"> " +str.encode(resp))
+                                c.sendall(b"<HOST> " +str.encode(resp))
                             except:
                                 print("Cannot broadcast outcoming msg!")
                                 return
@@ -83,7 +83,7 @@ def clisten(user_input):
                     for c in inputs:
                         if c is not sys.stdin and c is not host_peer and c is not s:
                             try:
-                                #import ipdb; ipdb.set_trace() # debugging starts here
+
                                 c.sendall(b"<"+str.encode(my_clients[s])+b"> "+str.encode(msg))
                             except:
                                 print("Cannot broadcast incoming msg!")
@@ -113,6 +113,7 @@ def cconnect(data):
             for s in inready:
                 if s is host_peer:
                     msg = s.recv(SIZE).decode()
+                    #import ipdb; ipdb.set_trace() # debugging starts here
                     if msg == '<HOST> \close':
                         print ('session ended')
                         host_peer.close()
@@ -164,13 +165,17 @@ def main():
             user_input = input(msg)  
             if user_input == "\quit":
                 server.sendall(b"\quit")
+                server.close()
+                return
             server.send(str.encode(user_input))                
         except:
             print("Cannot receving msg from server!")
             server.sendall(b"\quit")
+            server.close()
+            return
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
 
 
 # In[ ]:

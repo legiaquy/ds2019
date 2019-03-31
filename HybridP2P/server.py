@@ -124,7 +124,7 @@ def start(client,db,c_port,c_name):
                 if set_account(client,name,pwd,db,c_port):
                     c_name[client] = name
                     # CONNECT HERE
-                    print("\n"+c_name[client]+" is connected")
+                    print(c_name[client]+" is connected")
                     client.sendall(b"\nWelcome "+str.encode(name)+b"\nType your request or type \help for help\n") 
 
             elif data == 'n' or data == 'N':   #if existing user, it verifies the username and password
@@ -137,7 +137,7 @@ def start(client,db,c_port,c_name):
                     if login(client,name,pwd,db,c_name):
                         c_name[client] = name
                         # CONNECT HERE
-                        print("\n"+c_name[client]+" is connected")
+                        print(c_name[client]+" is connected")
                         client.sendall(b"\nWelcome " +str.encode(name)+b'\nType your request or type \help for help\n')
                         break
                     if x == 2:
@@ -159,14 +159,19 @@ def start(client,db,c_port,c_name):
                 client.sendall(b"OK")
                 print(see_db(db))
             elif data == '\quit': #disconnect client if requested
+                #import ipdb; ipdb.set_trace() # debugging starts here
                 print("\n"+c_name[client]+" is quit")
                 cclose(client, c_port, c_name)
+                print("End thread")
+                return
             else:
                 client.sendall(b"\nWrong syntax!")
 
         except:
             print ("\n" + c_name[client] + " is quit")
             cclose(client, c_port, c_name)
+            print("End thread")
+            return
 # --------OUR MODIFICATION--------------------- 
 
 
@@ -194,15 +199,20 @@ def main():
     c_name = {} # List of peers' name
     
     print ("\nChat server is now running on port " + str(PORT))
-    while True:
-        client, address = server.accept()
-        client.sendall(b"\nAre you a new user? Type Y or N: ")
-        Thread(target=start, args=(client, DATABASE, c_port, c_name)).start()
-        print("Start thread")
-    # --------OUR MODIFICATION--------------------- 
-
+    try:
+        while True:
+            client, address = server.accept()
+            client.sendall(b"\nAre you a new user? Type Y or N: ")
+            _thread = Thread(target=start, args=(client, DATABASE, c_port, c_name))
+            _thread.start()
+            print("Start thread")
+        # --------OUR MODIFICATION--------------------- 
+    except:
+        server.close()
+    return
+    
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
 #     print(see_db(DATABASE))
 
 
